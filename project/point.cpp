@@ -1,8 +1,14 @@
 #include <GL/freeglut.h>
 #include <iostream>
 #include <GL/glu.h>
+#include <algorithm>
+#include "../tools/include/headers.h"
 using namespace std;
 
+
+int xm, ym, xmm, ymm;
+int first = 0;
+void drawLine(Camus::Point pt1,Camus::Point pt2);
 
 void init(int w, int h)
 {
@@ -17,16 +23,16 @@ void init(int w, int h)
 
 void display(void)
 {
-    std::cout << "display" << std::endl;
-    glClear(GL_COLOR_BUFFER_BIT);
-    glPointSize(10);
-    glBegin(GL_POINTS);
-    glColor3f(1, 0, 0);
-    glVertex3f(0, 0, 0);
-    glColor3f(1, 1, 0);
-    glVertex3f(100, 100, 0);
-    glEnd();
-    glFlush();
+    // std::cout << "display" << std::endl;
+    // glClear(GL_COLOR_BUFFER_BIT);
+    // glPointSize(10);
+    // glBegin(GL_POINTS);
+    // glColor3f(1, 0, 0);
+    // glVertex3f(0, 0, 0);
+    // glColor3f(1, 1, 0);
+    // glVertex3f(100, 100, 0);
+    // glEnd();
+    // glFlush();
 }
 
 
@@ -37,6 +43,23 @@ void reshape (int w, int h)
 }
 
 
+void viewportToModelView(int x, int y, double &posX, double &posY, double &posZ)
+{
+    GLint viewPort[4];
+    GLdouble modelview[16];
+    double projection[16];
+    float winX, winY, winZ=1;
+    //glPushMatrix();
+    glGetIntegerv(GL_VIEWPORT, viewPort);
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    //glPopMatrix();
+    winX = x;
+    winY = viewPort[3] - y;
+    glReadPixels(winX, winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+    gluUnProject(winX, winY, 1, modelview, projection, viewPort, &posX, &posY, &posZ);
+
+}
 void mouse(int button, int state, int x, int y)
 {
     std::cout << "mouse" << std::endl;
@@ -56,27 +79,51 @@ void mouse(int button, int state, int x, int y)
     gluUnProject(winX, winY, 1, modelview, projection, viewPort, &posX, &posY, &posZ);
 
     std::cout <<"button" << button <<": state "<< state<<std::endl;
+    if(button == GLUT_LEFT_BUTTON)
+    {
+        xm = posX;
+        ym = posY;
 
+        if(state == GLUT_DOWN)
+        {
+            std::cout<<"logic xor"<<std::endl;
+            glLogicOp(GL_XOR);
+            glColor3f(1, 0, 0);
+            first = 0;
+        }
+        if(state == GLUT_UP)
+        {
+            std::cout<<"logic copy"<<std::endl;
+            drawLine( Camus::Point(xm, ym), Camus::Point(xmm, ymm));
+            glLogicOp(GL_COPY);
+            drawLine(Camus::Point(xm, ym),
+                     Camus::Point(xmm, ymm));
+        }
+    }
     std::cout << "x "<<posX<<" y "<<posY <<" z "<<posZ<< std::endl;
     //glutPostRedisplay();
 }
-
+void drawLine(Camus::Point pt1,Camus::Point pt2)
+{
+    glBegin(GL_LINES);
+    glVertex3fv(pt1.data());
+    glVertex3fv(pt2.data());
+    glEnd();
+    glFlush();
+}
 void motion(int x, int y)
 {
-    std::cout << "motion" << "x "<<x <<" :y "<<y<< std::endl;
-    static int pre_x = 0;
-    static int pre_y = 0;
-    if (pre_x == 0)
+    double posX, posY, posZ;
+    viewportToModelView(x, y, posX, posY, posZ);
+    if(first == 1)
     {
-        pre_x = x;
-        pre_y = y;
-        return;
+        drawLine(Camus::Point(xm, ym), Camus::Point(xmm, ymm));
     }
-    int diffx = x - pre_x;
-    int diffy = y - pre_y;
-
-    pre_x = x;
-    pre_y = y;
+    xmm = posX;
+    ymm = posY;
+    //drawLine( Camus::Point(preposx, preposy), Camus::Point(posxx, posyy));
+    drawLine(Camus::Point(xm, ym), Camus::Point(xmm, ymm));
+    first = 1;
 }
 
 /* ARGSUSED1 */

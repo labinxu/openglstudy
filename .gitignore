@@ -1,0 +1,15 @@
+auto-save-list/
+eshell/
+.projectile
+notes.el
+projectile.cache
+projectile-bookmarks.eld
+resource/
+url/
+tramp
+deps/
+exes/
+objs/
+GPATH
+GRTAGS
+GTAGS

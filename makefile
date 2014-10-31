@@ -26,14 +26,15 @@ SRCSNODIR = $(patsubst project/%.cpp, %.cpp, $(SRCS))
 OBJS = $(addprefix $(DIR_OBJS)/,$(SRCSNODIR))
 OBJS := $(patsubst %.cpp, %.o, $(OBJS))
 
-DIRS = $(DIR_OBJS) $(DIR_EXES) $(DIR_DEPS)
+DIRS = $(DIR_OBJS) $(DIR_EXES) #$#(DIR_DEPS)
 DEPS = $(SRCS:.cpp=.dep)
 DEPS := $(addprefix $(DIR_DEPS)/, $(DEPS))
 
 
 
 
-all:$(DIRS) $(EXE) $(SRCS) $(DIR_DEPS)
+all:$(DIRS) $(EXE) $(SRCS)
+#$(#DIR_DEPS)
 
 $(DIRS):
 	$(MKDIR) $@
@@ -44,13 +45,6 @@ $(OBJS):$(SRCS)
 	$(CC) -o $@ -c $^
 	cp $(DIR_DLLS) $(DIR_EXES)
 
-$(DIR_DEPS)/%.dep:$(SRCS)
-	@echo "Making $@ ..."
-	@set -e;\
-	$(RM) $(RMFLAGS) $@.tmp;\
-	$(CC) -E -MM $^ > $@.tmp;\
-	sed 's,\(.*)\.o[ :]*, objs/\1.0: ,g' < $@.tmp >$@;\
-	$(RM) $(RMFLAGS) $@.tmp
 clean:
 	$(RM) $(RMFLAGS) $(DIRS)
 list:
