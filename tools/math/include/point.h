@@ -6,6 +6,13 @@ namespace Camus
   class Point
   {
   public:
+    Point(const Point&pt)
+    {
+        m_data[0] = pt.m_data[0];
+        m_data[1] = pt.m_data[1];
+        m_data[2] = pt.m_data[2];
+
+    }
     Point(float x, float y, float z = 0)
     {
         m_data[0] = x;

@@ -86,18 +86,8 @@ void mouse(int button, int state, int x, int y)
 
         if(state == GLUT_DOWN)
         {
-            std::cout<<"logic xor"<<std::endl;
             glLogicOp(GL_XOR);
-            glColor3f(1, 0, 0);
-            first = 0;
-        }
-        if(state == GLUT_UP)
-        {
-            std::cout<<"logic copy"<<std::endl;
-            drawLine( Camus::Point(xm, ym), Camus::Point(xmm, ymm));
-            glLogicOp(GL_COPY);
-            drawLine(Camus::Point(xm, ym),
-                     Camus::Point(xmm, ymm));
+            drawLine( Camus::Point(0, 0), Camus::Point(300, 300));
         }
     }
     std::cout << "x "<<posX<<" y "<<posY <<" z "<<posZ<< std::endl;
@@ -113,6 +103,7 @@ void drawLine(Camus::Point pt1,Camus::Point pt2)
 }
 void motion(int x, int y)
 {
+    return;
     double posX, posY, posZ;
     viewportToModelView(x, y, posX, posY, posZ);
     if(first == 1)
