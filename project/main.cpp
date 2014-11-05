@@ -19,6 +19,8 @@ void init(int w, int h)
     //glOrtho(-w, w, -h, h, -1, 1000);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glLogicOp(GL_XOR);
+    glEnable(GL_COLOR_LOGIC_OP);
 }
 
 void display(void)
@@ -81,17 +83,25 @@ void mouse(int button, int state, int x, int y)
     std::cout <<"button" << button <<": state "<< state<<std::endl;
     if(button == GLUT_LEFT_BUTTON)
     {
-        xm = posX;
-        ym = posY;
 
         if(state == GLUT_DOWN)
         {
+            xm = posX;
+            ym = posY;
+            //drawLine( Camus::Point(xm, ym), Camus::Point(300, 300));
             glLogicOp(GL_XOR);
-            drawLine( Camus::Point(0, 0), Camus::Point(300, 300));
+            first = 0 ;
         }
+        else if(state= GLUT_UP)
+        {
+            //drawLine( Camus::Point(xm, ym), Camus::Point(ymm, ymm));
+            glLogicOp(GL_AND);
+            drawLine( Camus::Point(xm, ym), Camus::Point(posX, posY));
+        }
+
     }
+
     std::cout << "x "<<posX<<" y "<<posY <<" z "<<posZ<< std::endl;
-    //glutPostRedisplay();
 }
 void drawLine(Camus::Point pt1,Camus::Point pt2)
 {
@@ -103,16 +113,15 @@ void drawLine(Camus::Point pt1,Camus::Point pt2)
 }
 void motion(int x, int y)
 {
-    return;
     double posX, posY, posZ;
     viewportToModelView(x, y, posX, posY, posZ);
+
     if(first == 1)
     {
         drawLine(Camus::Point(xm, ym), Camus::Point(xmm, ymm));
     }
     xmm = posX;
     ymm = posY;
-    //drawLine( Camus::Point(preposx, preposy), Camus::Point(posxx, posyy));
     drawLine(Camus::Point(xm, ym), Camus::Point(xmm, ymm));
     first = 1;
 }

@@ -21,6 +21,8 @@ DIR_EXES = exes
 DIR_DEPS = deps
 
 SRCS = $(wildcard project/*.cpp)
+LIBSRCS = $(wildcard tools/src/*.cpp)
+
 SRCSNODIR = $(patsubst project/%.cpp, %.cpp, $(SRCS))
 
 OBJS = $(addprefix $(DIR_OBJS)/,$(SRCSNODIR))
@@ -48,4 +50,4 @@ $(OBJS):$(SRCS)
 clean:
 	$(RM) $(RMFLAGS) $(DIRS)
 list:
-	@echo "$(OBJS)"
+	@echo $(join $(LIBSRCS) $(SRCS))
