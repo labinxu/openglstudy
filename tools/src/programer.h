@@ -18,6 +18,10 @@ class Programer
     void init(int* cclr);
 
     static Programer* Instance();
+  private:
+    Programer(){}
+    Programer(const Programer&);
+    Programer* operator=(const Programer&);
   protected:
     bool init(int argc, char **argv)
     {
