@@ -1,22 +1,21 @@
-#include "god.h"
+#include "programer.h"
 #include <gl/freeglut.h>
-
+#include "sprite.h"
 using namespace Camus;
 
-
-void Programer::createWindow(int w, int h, int model)
+Programer* Programer::m_programer = NULL;
+void Programer::createWindow(const char* wname, int w, int h, int model)
 {
     glutInit(&m_argc, m_argv);
     glutInitDisplayMode (model);
     glutInitWindowSize (w, h );
     glutInitWindowPosition (w/2, h/2);
-    // glutCreateWindow (argv[0]);
+    glutCreateWindow (wname);
     // glutDisplayFunc(display);
     // glutReshapeFunc(reshape);
-    // // glutKeyboardFunc(keyboard);
-    // glutMouseFunc(mouse);
-    // glutMotionFunc(motion);
-    init();
+    glutKeyboardFunc(keyboard);
+    glutMouseFunc(mouse);
+    glutMotionFunc(motion);
     glutMainLoop();
 
 }
@@ -29,6 +28,7 @@ bool Programer::init(int *cclr)
     gluOrtho2D(-m_width, m_width, -m_height, m_height);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    return true;
 }
 
 Programer* Programer::Instance()
@@ -41,3 +41,4 @@ Programer* Programer::Instance()
     return Programer::m_programer;
 
 }
+

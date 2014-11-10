@@ -20,7 +20,7 @@ DIR_OBJS = objs
 DIR_EXES = exes
 DIR_DEPS = deps
 
-SRCS = $(wildcard project/*.cpp)
+SRCS = $(wildcard src/*.cpp)
 LIBSRCS = $(wildcard tools/src/*.cpp)
 
 SRCSNODIR = $(patsubst project/%.cpp, %.cpp, $(SRCS))

@@ -7,6 +7,7 @@
 using namespace std;
 
 
+
 int xm, ym, xmm, ymm;
 int first = 0;
 void drawLine(Camus::Point pt1,Camus::Point pt2);
@@ -183,7 +184,7 @@ void motion(int x, int y)
 /* ARGSUSED1 */
 void keyboard (unsigned char key, int x, int y)
 {
-
+    std::cout<<"key "<<key<<std::endl;
 }
 
 int main(int argc, char** argv)
