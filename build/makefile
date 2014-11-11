@@ -1,5 +1,4 @@
 .PHONY: all clean
-ROOT = /c/Users/cninlaxu/workspace/openglstudy
 DIRS = $(ROOT)/tools/src $(ROOT)/test
 RM = rm
 RMFLAGS = -rf

@@ -8,16 +8,14 @@ namespace Camus
 {
 
 class Sprite;
-enum class KEYBD_EVENT;
-enum class MOUSE_EVENT;
-enum class MOTION_EVENT;
-
 
 class Programer
 {
     friend void keyboard (unsigned char key, int x, int y);
     friend void motion(int x, int y);
     friend void mouse(int bt, int state, int x, int y);
+    friend void Display();
+    friend void Reshape(int, int);
   public:
     template<class T>
     T* create()
@@ -38,23 +36,6 @@ class Programer
     }
     /////////////////////////////////////////////////////////////////
     void createWindow(const char *wname);
-    std::vector<Sprite*>::iterator mouseReceiversBegin()
-    {
-        return m_mouseReceivers.begin();
-    }
-    std::vector<Sprite*>::iterator mouseReceiversEnd()
-    {
-        return m_motionReceivers.end();
-    }
-
-    std::vector<Sprite*>::iterator motionReceiversBegin()
-    {
-        return m_motionReceivers.begin();
-    }
-    std::vector<Sprite*>::iterator motionReceiversEnd()
-    {
-        return m_motionReceivers.end();
-    }
 
     void init(int argc, char **argv,
               int *cclr, int displaymodel,
@@ -71,6 +52,8 @@ class Programer
     Programer(const Programer&);
     Programer* operator=(const Programer&);
     void init();
+    void reshape(int w, int h);
+    void render();
   protected:
     int m_height;
     int m_width;
@@ -79,12 +62,10 @@ class Programer
     char **m_argv;
     int* m_cclr;
     static Programer *m_programer;
-    std::vector<Sprite*> m_mouseReceivers;
-    std::vector<Sprite*> m_motionReceivers;
-    std::vector<Sprite*> m_keyboardReceivers;
 };
 
-
+void Display();
+void Reshape(int w, int h);
 void keyboard (unsigned char key, int x, int y);
 
 void motion(int x, int y);

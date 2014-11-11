@@ -5,11 +5,15 @@
 using namespace Camus;
 
 Programer* Programer::m_programer = NULL;
-void display()
+void Camus::Display()
 {
+    Programer::Instance()->render();
 }
-void reshape(int ,int)
-{}
+void Camus::Reshape(int w ,int h)
+{
+    Programer::Instance()->reshape(w, h);
+}
+
 void Programer::init(int argc, char **argv,
               int *cclr, int displaymodel,
               int w, int h)
@@ -30,8 +34,8 @@ void Programer::createWindow(const char* wname)
     // glutInitWindowPosition (w/2, h/2);
     glutCreateWindow(wname);
     this->init();
-    glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
+    glutDisplayFunc(Display);
+    glutReshapeFunc(Reshape);
     glutKeyboardFunc(keyboard);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
@@ -59,6 +63,17 @@ Programer* Programer::Instance()
 
 }
 
+void Programer::render()
+{
+}
+
+void Programer::reshape(int w, int h)
+{
+}
+
+
+///////////////////////////////////////////////////////
+
 void Camus::keyboard (unsigned char key, int x, int y)
 {
     std::cout<<"keyboard"<<std::endl;
@@ -74,12 +89,10 @@ void Camus::keyboard (unsigned char key, int x, int y)
 
 void Camus::motion(int x, int y)
 {
-    std::cout<<"MOTION"<<std::endl;
-    return;
     Programer* pg = Programer::Instance();
-    for (auto iter = pg->motionReceiversBegin();
-         iter != pg->motionReceiversEnd(); ++iter) {
-        (*iter)->motion(x, y);
+    for (auto iter = pg->_motionReceivers.begin();
+         iter != pg->_motionReceivers.end(); ++iter) {
+        (*iter)(x, y);
     }
 }
 

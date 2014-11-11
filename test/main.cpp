@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../tools/src/programer.h"
-#include "../tools/src/sprite.h"
+#include "../tools/src/player.h"
+
 #define  GLUT_RGB                           0x0000
 #define  GLUT_RGBA                          0x0000
 #define  GLUT_INDEX                         0x0001
@@ -14,6 +15,7 @@
 #define  GLUT_STEREO                        0x0100
 #define  GLUT_LUMINANCE                     0x0200
 using namespace Camus;
+
 int main(int argc, char **argv)
 {
 
@@ -21,11 +23,10 @@ int main(int argc, char **argv)
     Programer* pg = Programer::Instance();
     int clearColor[]={0, 0, 0, 0};
     pg->init(argc, argv, clearColor, GLUT_SINGLE|GLUT_RGB, 400, 400);
-    Sprite* sp = pg->create<Sprite>();
-    Register<KEYBD_EVENT>().regist(sp);
-    Register<MOUSE_EVENT>().regist(sp);
-
-    //sp->regist<KEYBD_EVENT>();
+    Player* sp = pg->create<Player>();
+    Register<Keyboard>::regist(sp);
+    Register<Mouse>::regist(sp);
+    Register<Motion>::regist(sp);
     pg->createWindow("OpenGLW");
 
     return 0;
