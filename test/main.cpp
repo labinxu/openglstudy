@@ -1,7 +1,6 @@
 #include <iostream>
 #include "../tools/src/programer.h"
 #include "../tools/src/player.h"
-
 #define  GLUT_RGB                           0x0000
 #define  GLUT_RGBA                          0x0000
 #define  GLUT_INDEX                         0x0001
@@ -19,16 +18,17 @@ using namespace Camus;
 int main(int argc, char **argv)
 {
 
-    std::cout<<"hello world"<<std::endl;
     Programer* pg = Programer::Instance();
     int clearColor[]={0, 0, 0, 0};
     pg->init(argc, argv, clearColor, GLUT_SINGLE|GLUT_RGB, 400, 400);
     Player* sp = pg->create<Player>();
-    Register<Keyboard>::regist(sp);
-    Register<Mouse>::regist(sp);
-    Register<Motion>::regist(sp);
-    pg->createWindow("OpenGLW");
-
+    Register<Keyboard>::Regist(sp);
+    Register<Mouse>::Regist(sp);
+    Register<Motion>::Regist(sp);
+    Point pt1(100, 100);
+    Point pt2(-100, -100);
+    pg->addToDrawer(new Line(pt1, pt2));
+    pg->createWindow("OpenGL Window");
     return 0;
 
 }

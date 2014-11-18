@@ -3,10 +3,10 @@
 
 namespace Camus
 {
+
 class Keyboard
 {
   public:
-    virtual void keyboard(unsigned char key, int x, int y) = 0;
     virtual void operator()(unsigned char key, int x, int y)=0;
     virtual ~Keyboard(){}
 };
@@ -14,7 +14,6 @@ class Keyboard
 class Mouse
 {
   public:
-    virtual void mouse(int bt, int state, int x, int y) = 0;
     virtual void operator()(int, int, int, int)=0;
 
     virtual ~Mouse(){}
@@ -23,7 +22,6 @@ class Mouse
 class Motion
 {
   public:
-    virtual void motion(int x, int y) = 0;
     virtual void operator()(int x, int y)=0;
 
     virtual ~Motion(){}
@@ -39,7 +37,7 @@ template<>
 class Register<Keyboard>
 {
   public:
-    static void regist(Keyboard* sp)
+    static void Regist(Keyboard* sp)
     {
         Programer* pg = Programer::Instance();
         std::function<void (unsigned char,int ,int)> f;
@@ -56,7 +54,7 @@ template<>
 class Register<Mouse>
 {
   public:
-    static void regist(Mouse* sp)
+    static void Regist(Mouse* sp)
     {
         Programer* pg = Programer::Instance();
         std::function<void (int, int ,int ,int)> f;
@@ -76,7 +74,7 @@ template<>
 class Register<Motion>
 {
   public:
-    static void regist(Motion* sp)
+    static void Regist(Motion* sp)
     {
         Programer* pg = Programer::Instance();
         std::function<void (int ,int)> f;

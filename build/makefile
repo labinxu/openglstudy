@@ -1,4 +1,7 @@
 .PHONY: all clean
+ROOT_DIR=$(shell pwd)
+ROOT_DIR := $(patsubst %/build,%/,$(ROOT_DIR))
+export ROOT = $(ROOT_DIR)
 DIRS = $(ROOT)/tools/src $(ROOT)/test
 RM = rm
 RMFLAGS = -rf

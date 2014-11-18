@@ -2,8 +2,12 @@
 #include "sprite.h"
 #include <gl/freeglut.h>
 #include <iostream>
-using namespace Camus;
+#include "primitive.h"
+#include "point.h"
 
+using namespace Camus;
+extern Drawer *GlobalDrawer;
+extern void InitDrawer(Drawer*);
 Programer* Programer::m_programer = NULL;
 void Camus::Display()
 {
@@ -24,6 +28,12 @@ void Programer::init(int argc, char **argv,
     m_height = h;
     m_cclr = cclr;
     m_displayModel = displaymodel;
+    InitDrawer(new OpenGlDrawer());
+}
+
+void Programer::addToDrawer(Primitive* p)
+{
+    GlobalDrawer->add(p);
 }
 
 void Programer::createWindow(const char* wname)
@@ -31,9 +41,8 @@ void Programer::createWindow(const char* wname)
     glutInit(&m_argc, m_argv);
     glutInitDisplayMode (m_displayModel);
     glutInitWindowSize (m_width, m_height );
-    // glutInitWindowPosition (w/2, h/2);
     glutCreateWindow(wname);
-    this->init();
+    init();
     glutDisplayFunc(Display);
     glutReshapeFunc(Reshape);
     glutKeyboardFunc(keyboard);
@@ -45,11 +54,6 @@ void Programer::createWindow(const char* wname)
 void Programer::init()
 {
     glClearColor (m_cclr[0], m_cclr[1], m_cclr[2], m_cclr[3]);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(-m_width, m_width, -m_height, m_height);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
 }
 
 Programer* Programer::Instance()
@@ -65,10 +69,20 @@ Programer* Programer::Instance()
 
 void Programer::render()
 {
+    std::cout << "program render" << std::endl;
+    glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+    GlobalDrawer->show();
+    glFlush();
 }
 
 void Programer::reshape(int w, int h)
 {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-m_width, m_width, -m_height, m_height);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
 }
 
 

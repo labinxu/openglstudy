@@ -2,12 +2,18 @@
 #define PROGRAMER_H
 #include <vector>
 #include <functional>
-
+#include "primitive.h"
 
 namespace Camus
 {
 
 class Sprite;
+struct Attribute
+{
+    unsigned int att_id;
+    int color[4];
+    void apply();
+};
 
 class Programer
 {
@@ -36,7 +42,7 @@ class Programer
     }
     /////////////////////////////////////////////////////////////////
     void createWindow(const char *wname);
-
+    void addToDrawer(Primitive *p);
     void init(int argc, char **argv,
               int *cclr, int displaymodel,
               int w, int h);
@@ -54,6 +60,7 @@ class Programer
     void init();
     void reshape(int w, int h);
     void render();
+
   protected:
     int m_height;
     int m_width;
@@ -67,9 +74,7 @@ class Programer
 void Display();
 void Reshape(int w, int h);
 void keyboard (unsigned char key, int x, int y);
-
 void motion(int x, int y);
-
 void mouse(int bt, int state, int x, int y);
 
 

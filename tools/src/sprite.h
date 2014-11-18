@@ -2,8 +2,8 @@
 #define SPRITE_H
 #include <functional>
 #include "programer.h"
-
-
+#include <algorithm>
+using namespace std;
 namespace Camus
 {
 class Sprite
@@ -11,6 +11,7 @@ class Sprite
   public:
     Sprite(){}
     virtual ~Sprite(){}
+
 };
 
 
