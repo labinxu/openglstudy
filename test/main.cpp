@@ -1,6 +1,9 @@
 #include <iostream>
 #include "../tools/src/programer.h"
 #include "../tools/src/player.h"
+#include "../tools/src/polygon.h"
+
+
 #define  GLUT_RGB                           0x0000
 #define  GLUT_RGBA                          0x0000
 #define  GLUT_INDEX                         0x0001
@@ -25,9 +28,13 @@ int main(int argc, char **argv)
     Register<Keyboard>::Regist(sp);
     Register<Mouse>::Regist(sp);
     Register<Motion>::Regist(sp);
-    Point pt1(100, 100);
-    Point pt2(-100, -100);
-    pg->addToDrawer(new Line(pt1, pt2));
+    //pg->addToDrawer(new Line(Point(100, 100), Point(-100, -100)));
+    Polygon *poly = new Polygon();
+    poly->add(Point(200, 200));
+    poly->add(Point(-200, 200));
+    poly->add(Point(-200, -200));
+    poly->add(Point(200, -200));
+    pg->addToDrawer(poly);
     pg->createWindow("OpenGL Window");
     return 0;
 
