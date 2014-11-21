@@ -2,6 +2,7 @@
 #include "../tools/src/programer.h"
 #include "../tools/src/player.h"
 #include "../tools/src/polygon.h"
+#include "../tools/src/drawer.h"
 
 
 #define  GLUT_RGB                           0x0000
@@ -28,13 +29,14 @@ int main(int argc, char **argv)
     Register<Keyboard>::Regist(sp);
     Register<Mouse>::Regist(sp);
     Register<Motion>::Regist(sp);
-    //pg->addToDrawer(new Line(Point(100, 100), Point(-100, -100)));
+    Drawer *drawer = new Drawer();
     Polygon *poly = new Polygon();
     poly->add(Point(200, 200));
     poly->add(Point(-200, 200));
     poly->add(Point(-200, -200));
     poly->add(Point(200, -200));
-    pg->addToDrawer(poly);
+    drawer->add(poly);
+    pg->add(drawer);
     pg->createWindow("OpenGL Window");
     return 0;
 

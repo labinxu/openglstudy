@@ -1,9 +1,8 @@
-#include "programer.h"
-#include "sprite.h"
-#include <gl/freeglut.h>
 #include <iostream>
+#include <gl/freeglut.h>
+#include "programer.h"
 #include "primitive.h"
-#include "point.h"
+#include "drawer.h"
 
 using namespace Camus;
 extern Drawer *GlobalDrawer;
@@ -28,12 +27,6 @@ void Programer::init(int argc, char **argv,
     m_height = h;
     m_cclr = cclr;
     m_displayModel = displaymodel;
-    InitDrawer(new OpenGlDrawer());
-}
-
-void Programer::addToDrawer(Primitive* p)
-{
-    GlobalDrawer->add(p);
 }
 
 void Programer::createWindow(const char* wname)
@@ -55,6 +48,10 @@ void Programer::init()
 {
     glClearColor (m_cclr[0], m_cclr[1], m_cclr[2], m_cclr[3]);
 }
+void Programer::add(Camus::Drawer *drawer)
+{
+    _drawers.push_back(drawer);
+}
 
 Programer* Programer::Instance()
 {
@@ -71,7 +68,10 @@ void Programer::render()
 {
     std::cout << "program render" << std::endl;
     glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
-    GlobalDrawer->show();
+    for(auto it: _drawers)
+    {
+        it->draw();
+    }
     glFlush();
 }
 

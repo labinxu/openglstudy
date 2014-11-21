@@ -5,11 +5,23 @@
 
 
 using namespace Camus;
-Drawer *GlobalDrawer=NULL;
-void InitDrawer(Drawer*drawer)
+Primitive::Primitive(){}
+Primitive::~Primitive(){}
+Points_Iter Primitive::begin()
 {
-    GlobalDrawer = drawer;
-    std::cout<<"init drawer initialize"<<std::endl;
+    return _pts.begin();
 }
 
+Points_Iter Primitive::end()
+{
+    return _pts.end();
+}
 
+void Primitive::add(Point &&pt)
+{
+    _pts.push_back(pt);
+}
+void Primitive::add(Point &pt)
+{
+    _pts.push_back(pt);
+}

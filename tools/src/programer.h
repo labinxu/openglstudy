@@ -6,6 +6,7 @@
 
 namespace Camus
 {
+class Drawer;
 
 class Sprite;
 struct Attribute
@@ -42,10 +43,10 @@ class Programer
     }
     /////////////////////////////////////////////////////////////////
     void createWindow(const char *wname);
-    void addToDrawer(Primitive *p);
     void init(int argc, char **argv,
               int *cclr, int displaymodel,
               int w, int h);
+    void add(Drawer *drawer);
 
     static Programer* Instance();
   private:
@@ -62,6 +63,7 @@ class Programer
     void render();
 
   protected:
+    std::vector<Drawer*> _drawers;
     int m_height;
     int m_width;
     int m_argc;
